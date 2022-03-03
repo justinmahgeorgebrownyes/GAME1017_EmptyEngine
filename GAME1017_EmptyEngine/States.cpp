@@ -25,6 +25,10 @@ TitleState::TitleState()
 void TitleState::Enter()
 {
 	cout << "Enter titleState..." << endl;
+
+
+
+
 }
 
 void TitleState::Update()
