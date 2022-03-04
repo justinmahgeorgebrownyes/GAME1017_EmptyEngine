@@ -22,10 +22,32 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 				// Initialize subsystems...
 				if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0)
 				{
+
+					m_pTexture = IMG_LoadTexture(m_pRenderer, "Img\\background_ccexpress.jpeg");
+					m_pTexture1 = IMG_LoadTexture(m_pRenderer, "Img\\start.png");
+					m_pTexture2 = IMG_LoadTexture(m_pRenderer, "Img\\exit.jfif");
+					m_pTexture2 = IMG_LoadTexture(m_pRenderer, "Img\\resume.png");
+
 					// Do something here.
 				}
 				else return false; // Image init failed.
+
+				if (Mix_Init(MIX_INIT_MP3) != 0) {
+
+					Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 2048);
+					Mix_AllocateChannels(16);
+
+					m_backmusic = Mix_LoadMUS("Aud\\background.mp3");
+
+
+				}
+				else return false; // music init failed.
+
+				
+
 			}
+
+
 			else return false; // Renderer creation failed.
 		}
 		else return false; // Window creation failed.
@@ -102,6 +124,43 @@ bool Engine::MouseClick(SDL_Rect button ) {
 
 }
 
+void Engine::BackgroundMusic() {
+
+
+	// play music forever
+	// Mix_Music *music; // I assume this has been loaded already
+	if (Mix_PlayMusic(m_backmusic, -1) == -1) {
+		printf("Mix_PlayMusic: %s\n", Mix_GetError());
+		// well, there's no music, but most games don't break without music...
+	}
+
+
+
+}
+
+void Engine::BackgroundImage() {
+
+
+
+//	SDL_Rect temp = {255, 128, 512, 512};
+	SDL_RenderCopy(m_pRenderer, m_pTexture, NULL, NULL);
+
+}
+
+void Engine::TitleButton(SDL_Rect *size ) {
+
+
+	SDL_RenderCopy(m_pRenderer, m_pTexture1, NULL, size);
+
+}
+
+void Engine::ResumeButton(SDL_Rect* size) {
+
+
+	SDL_RenderCopy(m_pRenderer, m_pTexture2, NULL, size);
+
+}
+
 
 
 void Engine::Update()
@@ -164,6 +223,9 @@ void Engine::Clean()
 	//invoke mix_closeaudio(
 	//invoke mix_quit(
 
+	Mix_FreeMusic(m_backmusic);
+	Mix_CloseAudio();
+	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

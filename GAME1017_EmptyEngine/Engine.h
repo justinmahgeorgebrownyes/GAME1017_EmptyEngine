@@ -26,6 +26,11 @@ private: // private properties.
 	int m_x, m_y;
 	Uint32 m_buttons;
 
+	Mix_Music *m_backmusic;
+
+	SDL_Texture* m_pTexture;
+	SDL_Texture* m_pTexture1;
+	SDL_Texture* m_pTexture2;
 
 private: // private method prototypes.
 	int Init(const char* title, int xPos, int yPos, int width, int height, int flags);
@@ -45,6 +50,10 @@ public: // public method prototypes.
 	SDL_Renderer* GetRenderer() { return m_pRenderer; }
 	bool KeyDown(SDL_Scancode c);
 	bool MouseClick(SDL_Rect button);
+	void BackgroundMusic();
+	void BackgroundImage();
+	void TitleButton(SDL_Rect* size);
+	void ResumeButton(SDL_Rect* size);
 };
 
 #endif

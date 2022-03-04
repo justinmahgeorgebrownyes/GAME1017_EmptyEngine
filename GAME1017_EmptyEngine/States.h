@@ -2,13 +2,12 @@
 #ifndef _STATES_H_
 #define _STATES_H_
 #include "SDL.h"
+#include "GameObjects.h"
+#include <vector>
 using namespace std;
 
 
 class State {
-
-protected:
-	State() {};
 
 public:
 	virtual ~State() = default;
@@ -17,7 +16,11 @@ public:
 	virtual void Render();
 		virtual void Exit() = 0;
 	virtual void Resume();
-
+//	GameObject* GetGo(const std::string& s);
+	auto GetIt(const std::string& s);
+protected: // Private but inherited
+	State() {} // What does this prevent?
+	vector < std::pair <std::string, GameObject* >> m_objects;
 
 //	vector<std::pair<std::string, GameObject*>> m_objects;
 
@@ -41,6 +44,8 @@ public:
 
 class PauseState : public State {
 private:
+	SDL_Rect m_button2;
+
 
 public:
 	PauseState();
